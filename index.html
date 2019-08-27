@@ -6,11 +6,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<title>BETA</title>
-	<script src="build/p5.js"></script>
-	<script src="build/p5.dom.js"></script>
-	<script src="build/p5.sound.js"></script>
-
-
 
 	<style>
 		body {
@@ -61,14 +56,16 @@
 	<link rel="stylesheet" type="text/css" href="font/font.css" />
 
 	<script src="build/three.js"></script>
+	<script src="build/three.min.js"></script>
+	<script src="build/three.module.js"></script>
 
-	<script src="js/PointerLockControls.js"></script>
 	<script src="js/OrbitControls.js"></script>
 	<script src="js/DeviceOrientationControls.js"></script>
 
   <script src="js/DDSLoader.js"></script>
 	<script src="js/OBJLoader.js"></script>
 	<script src="js/MTLLoader.js"></script>
+	<script src="js/PLYLoader.js"></script>
 
 	<script src="js/Reflector.js"></script>
 
@@ -98,9 +95,9 @@
 	document.body.appendChild( renderer.domElement );
 
 	//CAMERA
-	camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 2000 );
+	camera = new THREE.PerspectiveCamera( 80, window.innerWidth / window.innerHeight, 1, 100 );
 	camera.position.set( 15, player.height, 0);
-	camera.lookAt(new THREE.Vector3(0,player.height,0));
+	//camera.lookAt(new THREE.Vector3(0,player.height,0));
 
 
 
@@ -113,8 +110,8 @@
 	controls.screenSpacePanning = false;
 	controls.minDistance = 0;
 	//controls.maxDistance = 15;
-	controls.maxDistance = 150;
-	controls.maxPolarAngle = Math.PI/2.5;
+	controls.maxDistance = 125;
+	controls.maxPolarAngle = Math.PI/2.1;
 
 
 
@@ -136,78 +133,8 @@
 
 	var light4 = new THREE.DirectionalLight(0x021484, 2);
 	light4.position.set(20,5,-20);
-	scene.add(light4);
+	//scene.add(light4);
 
-
-	// IMPORT ÉLÉMENTS 3D
-	var mtlLoadertronc2 = new THREE.MTLLoader();
-
-	mtlLoadertronc2.load( "obj/tronc2.mtl", function( materials ) {
-
-	//var modeltex = new THREE.TextureLoader().load( "obj/texture1.jpg" );
-	materials.preload();
-
-	var objLoadertronc2 = new THREE.OBJLoader();
-	objLoadertronc2.setMaterials(materials);
-	objLoadertronc2.load('obj/tronc2.obj',function(tronc2)	{
-
-		  scene.add(tronc2);
-		  tronc2.scale.set(9,9,9);
-		  tronc2.position.set(-13,6, 5);
-
-	});
-});
-
-var mtlLoadersouche = new THREE.MTLLoader();
-
-mtlLoadersouche.load( "obj/souche.mtl", function( materials ) {
-
-materials.preload();
-
-var objLoadersouche = new THREE.OBJLoader();
-objLoadersouche.setMaterials(materials);
-objLoadersouche.load('obj/souche.obj',function(souche)	{
-
-		scene.add(souche);
-		souche.scale.set(4,4,4);
-		souche.position.set(0,-3,0);
-
-                                                        });
-});
-
-	var mtlLoader = new THREE.MTLLoader();
-mtlLoader.setBaseUrl( 'obj/' );
-mtlLoader.setPath( 'obj/' );
-var url = "/drapé1.mtl";
-mtlLoader.load( url, function( materials3 ) {
-
-	materials3.preload();
-
-	var objLoader = new THREE.OBJLoader();
-	var objLoader2 = new THREE.OBJLoader();
-
-	objLoader.setMaterials(materials);
-	objLoader2.setMaterials(materials);
-	objLoader.setPath( 'obj/' );
-	objLoader2.setPath( 'obj/' );
-
-
-
-	objLoader2.load('/drapé1.obj',function(object2)	{
-			scene.add(object2);
-			object2.scale.set(0.2,0.09,0.09);
-			object2.position.set(0,-4, 0);
-			//object2.children[0].material.side = THREE.DoubleSide;
-	});
-
-	objLoader.load('/Palm_01.obj',function(object)	{
-   scene.add(object);
-			object.scale.set(0.7,0.7,0.7);
-			object.position.set(0, 0, 0);
-			//object.children[0].material.side = THREE.DoubleSide;
-	});
-
-});
 
 
 // PANNEAUX IMAGES
@@ -217,11 +144,11 @@ mtlLoader.load( url, function( materials3 ) {
 var video = document.createElement( 'video' );
 
 video.crossOrigin = 'anonymous';
-video.width = 600;
-video.height = 440;
+video.width = 925;
+video.height = 576;
 video.loop = true;
-video.muted = false;
-video.src = 'textures/fleur_fenetre.mp4';
+video.muted = true;
+video.src = 'textures/ordinateur1.mp4';
 video.setAttribute( 'webkit-playsinline', 'webkit-playsinline' );
 video.play();
 
@@ -280,15 +207,15 @@ var material5 = new THREE.MeshPhongMaterial({
 	//color: 0x383838,
 	specular: 0xffffff,
 	shininess: 0,
-	bumpMap: mapbump2,
-	bumpScale: 2,
+	bumpMap: img6,
+	bumpScale: 1,
 	reflectivity : 10,
 	specular : 0x7e7e7e,
 });
 var material6 = new THREE.MeshPhongMaterial({color:0xffffff, side: THREE.DoubleSide});
 
-var photos = new THREE.BoxGeometry(7,10,0.2);
-var geometry2 = new THREE.PlaneGeometry(10,20,0);
+var photos = new THREE.BoxGeometry(13,23,0.2);
+var geometry2 = new THREE.PlaneGeometry(18,10,0);
 var geometry3 = new THREE.PlaneGeometry(6,9,0);
 var geometry4 = new THREE.BoxGeometry(7,9,0.2);
 
@@ -299,9 +226,11 @@ var mesh3 = new THREE.Mesh( geometry3, material4 );
 var mesh4 = new THREE.Mesh( geometry4, material3);
 
 
-		  meshPhotos.position.set( 0, 5, 20 );
-			mesh2.position.set( 20, 8, 10);
-			mesh3.position.set( -18, 9, 5);
+		  meshPhotos.position.set( 0, 11, 29 );
+			meshPhotos.rotation.set( 0.1, 0, 0 );
+
+			mesh2.position.set( 29, 9, 10);
+			mesh3.position.set( -29, 9, 5);
 			mesh4.position.set( 0, 7, 0);
 
       mesh2.rotation.set( 0, 30, 0);
@@ -318,7 +247,7 @@ var mesh4 = new THREE.Mesh( geometry4, material3);
 			// CUBE
 
 			  var galerieMesh, galerieScene, galerieCamera;
-        var galerie = new THREE.BoxGeometry(50,25,50);
+        var galerie = new THREE.BoxGeometry(60,35,60);
 
 			  var galerieMesh = new THREE.Mesh(galerie, materialPhotos);
 
@@ -335,11 +264,11 @@ var mesh4 = new THREE.Mesh( geometry4, material3);
 
 //GROUND
 
-var ground = new THREE.PlaneGeometry(51,51,10);
+var ground = new THREE.PlaneGeometry(60,60,10);
 var groundMirror = new THREE.Reflector( ground, {
 clipBias:0.03,
-textureWidth: 10 * window.devicePixelRatio,
-textureHeight: 10 * window.devicePixelRatio,
+textureWidth: 15 * window.devicePixelRatio,
+textureHeight: 15 * window.devicePixelRatio,
 color: 0x515151,
 recursion: 1,
 } );
@@ -350,7 +279,7 @@ scene.add( groundMirror );
 
 //PLAFOND
 
-var plafond = new THREE.PlaneGeometry(45,45,10,10);
+var plafond = new THREE.PlaneGeometry(60,60,10);
 var plafondMirror = new THREE.Reflector( plafond, {
 clipBias:0.003,
 textureWidth: 20 * window.devicePixelRatio,
@@ -359,20 +288,114 @@ color: 0x000000,
 recursion: 6,
 } );
 
-plafondMirror.position.y = 23.5 ;
+plafondMirror.position.y = 28.5 ;
 plafondMirror.rotation.x+= Math.PI/2;
 scene.add( plafondMirror );
 
+// IMPORT ÉLÉMENTS 3D
 
+var r = "textures/cube/Park3Med/";
+
+var urls = [
+	r + "px.jpg", r + "nx.jpg",
+	r + "py.jpg", r + "ny.jpg",
+	r + "pz.jpg", r + "nz.jpg"
+];
+
+var textureCube = new THREE.CubeTextureLoader().load( urls );
+textureCube.mapping = THREE.CubeRefractionMapping;
+
+
+var materialply = new THREE.MeshPhongMaterial( { color: 0xffffff,  side: THREE.DoubleSide, envMap: textureCube, refractionRatio: 0.7, reflectivity: 1 } );
+// PLY file
+
+loader = new THREE.PLYLoader();
+				loader.load( 'obj/jardin_smooth2.ply', function( geometry ) { createScene( geometry,  materialply) } );
+
+
+
+
+var mtlLoadertronc2 = new THREE.MTLLoader();
+
+mtlLoadertronc2.load( "obj/Palm_01.mtl", function( materials ) {
+
+//var modeltex = new THREE.TextureLoader().load( "obj/texture1.jpg" );
+materials.preload();
+
+var objLoadertronc2 = new THREE.OBJLoader();
+objLoadertronc2.setMaterials(materials);
+objLoadertronc2.load('obj/Palm_01.obj',function(tronc2)	{
+
+		scene.add(tronc2);
+		tronc2.scale.set(1,1,1);
+		tronc2.position.set(0,0, 0);
+
+});
+});
+
+var mtlLoadersouche = new THREE.MTLLoader();
+
+mtlLoadersouche.load( "obj/drapé1.mtl", function( materials ) {
+
+materials.preload();
+
+var objLoadersouche = new THREE.OBJLoader();
+objLoadersouche.setMaterials(materials);
+objLoadersouche.load('obj/drapé1.obj',function(souche)	{
+
+	scene.add(souche);
+	souche.scale.set(1.7,0.5,1.5);
+	souche.position.set(0,-0.01,0);
+
+
+																											});
+});
+
+var mtlLoader = new THREE.MTLLoader();
+mtlLoader.setBaseUrl( 'obj/' );
+mtlLoader.setPath( 'obj/' );
+var url = "/tronc1.mtl";
+mtlLoader.load( url, function( materials3 ) {
+
+materials3.preload();
+
+var objLoader = new THREE.OBJLoader();
+var objLoader2 = new THREE.OBJLoader();
+
+objLoader.setMaterials(materials);
+objLoader2.setMaterials(materials);
+objLoader.setPath( 'obj/' );
+objLoader2.setPath( 'obj/' );
+
+});
 
 
 
   requestAnimationFrame( animate );
 
 
-
 // RENDER LOOP
 	animate();
+
+	function createScene( geometry, m1) {
+
+			geometry.computeVertexNormals();
+
+			var s = 1.5;
+
+			var objply = new THREE.Mesh( geometry, m1 );
+		//	mesh.scale.x = mesh.scale.y = mesh.scale.z = s;
+		//	mesh.position.z = - 2700;
+			scene.add( objply );
+			objply.scale.set (2.5,2.5,2.5);
+			//objply.position.set (5,15.5,-20);
+			objply.position.set (0,14.5,0);
+			objply.rotation.set (0,6,0);
+
+
+
+		}
+
 
 	function animate() {
 
@@ -405,14 +428,20 @@ scene.add( plafondMirror );
 
 		mesh4.rotation.y += 0.002;
 
+
     //mesh.rotation.y += 0.002;
     renderer.autoClear = false;
 		renderer.clear();
-    renderer.render( galerieScene, galerieCamera );
     renderer.render( scene, camera );
 		requestAnimationFrame( animate );
 
 	}
+
+	function onWindowResize() {
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
+	renderer.setSize( window.innerWidth, window.innerHeight );
+}
 
 
 
