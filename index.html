@@ -84,7 +84,7 @@
 	myCanvas = document.getElementById('myCanvas');
 
   var keyboard = {};
-	var player = {height:9};
+	var player = {height:12};
 
 
 	//RENDERER
@@ -95,7 +95,7 @@
 	document.body.appendChild( renderer.domElement );
 
 	//CAMERA
-	camera = new THREE.PerspectiveCamera( 80, window.innerWidth / window.innerHeight, 1, 100 );
+	camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 100 );
 	camera.position.set( 15, player.height, 0);
 	//camera.lookAt(new THREE.Vector3(0,player.height,0));
 
@@ -110,8 +110,8 @@
 	controls.screenSpacePanning = false;
 	controls.minDistance = 0;
 	//controls.maxDistance = 15;
-	controls.maxDistance = 125;
-	controls.maxPolarAngle = Math.PI/2.1;
+	controls.maxDistance = 25;
+	controls.maxPolarAngle = Math.PI/2.2;
 
 
 
@@ -127,14 +127,17 @@
 	light2.position.set(0,5,-20);
 	scene.add(light2);
 
-	var light3 = new THREE.DirectionalLight(0xffffff, 0.7);
-	light3.position.set(0,5,18);
+	var light3 = new THREE.DirectionalLight(0xffffff, 0.2);
+	light3.position.set( 29, 20, 0);
 	scene.add(light3);
 
-	var light4 = new THREE.DirectionalLight(0x021484, 2);
-	light4.position.set(20,5,-20);
-	//scene.add(light4);
+	var light4 = new THREE.DirectionalLight(0xffffff, 0.2);
+	light4.position.set(15,10,15);
+	scene.add(light4);
 
+	var light5 = new THREE.DirectionalLight(0x1c029b, 0.2);
+	light5.position.set(0,10,0);
+	scene.add(light5);
 
 
 // PANNEAUX IMAGES
@@ -157,10 +160,12 @@ video.play();
 // CHARGEMENT PHOTOS
 var img1 = new THREE.TextureLoader().load( "textures/0_21.jpg" );
 var img2 = new THREE.TextureLoader().load( "textures/manifeste.jpg" );
-var img3 = new THREE.TextureLoader().load( "textures/shade.jpg" );
+var img3 = new THREE.TextureLoader().load( "textures/composition.jpg" );
 var img4 = new THREE.TextureLoader().load( "textures/img028.jpg" );
 var img5 = new THREE.TextureLoader().load( "textures/ciel.jpg" );
 var img6 = new THREE.TextureLoader().load( "textures/0005_6.jpg" );
+var img7 = new THREE.TextureLoader().load( "textures/vierge.jpg" );
+var img8 = new THREE.TextureLoader().load( "textures/composition2.jpg" );
 //texture.minFilter = THREE.NearestFilter;
 //texture.format = THREE.RGBFormat;
 img2.wrapS = THREE.RepeatWrapping;
@@ -173,15 +178,15 @@ var mapbump = new THREE.TextureLoader().load( "textures/manifeste.jpg" );
 var mapbump2 = new THREE.TextureLoader().load( "textures/0017_18.jpg" );
 
 var texture = [
-new THREE.MeshPhongMaterial({map: img3, side: THREE.DoubleSide}),// RIGHT
+new THREE.MeshPhongMaterial({map: img7, side: THREE.DoubleSide}),// RIGHT
 new THREE.MeshPhongMaterial({map: img3, side: THREE.DoubleSide}), //LEFT
 new THREE.MeshPhongMaterial({
   transparency : 0.1,
 	//color: 0xffffff,
 	map: img5,
 	side: THREE.FrontSide}), //TOP
-new THREE.MeshPhongMaterial({map: img3, side: THREE.FrontSide}),//BOTTOM
-new THREE.MeshPhongMaterial({map: img3, side: THREE.DoubleSide}),//BACK
+new THREE.MeshPhongMaterial({map: img7, side: THREE.FrontSide}),//BOTTOM
+new THREE.MeshPhongMaterial({map: img8, side: THREE.DoubleSide}),//BACK
 new THREE.MeshPhongMaterial({map: img4, side: THREE.BackSide}),//FRONT
 //new THREE.MeshBasicMaterial({map: img2, side: THREE.DoubleSide})//BACK
 
@@ -229,7 +234,7 @@ var mesh4 = new THREE.Mesh( geometry4, material3);
 		  meshPhotos.position.set( 0, 11, 29 );
 			meshPhotos.rotation.set( 0.1, 0, 0 );
 
-			mesh2.position.set( 29, 9, 10);
+			mesh2.position.set( 29, 15, 0);
 			mesh3.position.set( -29, 9, 5);
 			mesh4.position.set( 0, 7, 0);
 
@@ -240,8 +245,8 @@ var mesh4 = new THREE.Mesh( geometry4, material3);
 
 			scene.add( meshPhotos );
 			scene.add( mesh2 );
-			scene.add( mesh3 );
-			scene.add( mesh4 );
+			//scene.add( mesh3 );
+			//scene.add( mesh4 );
 
 
 			// CUBE
@@ -306,7 +311,7 @@ var textureCube = new THREE.CubeTextureLoader().load( urls );
 textureCube.mapping = THREE.CubeRefractionMapping;
 
 
-var materialply = new THREE.MeshPhongMaterial( { color: 0xffffff,  side: THREE.DoubleSide, envMap: textureCube, refractionRatio: 0.7, reflectivity: 1 } );
+var materialply = new THREE.MeshPhongMaterial( { color: 0xffffff,  side: THREE.DoubleSide, envMap: textureCube, refractionRatio: 0.9, reflectivity: 1 } );
 // PLY file
 
 loader = new THREE.PLYLoader();
@@ -314,60 +319,85 @@ loader = new THREE.PLYLoader();
 
 
 
+				var mtlLoadersouche = new THREE.MTLLoader();
 
-var mtlLoadertronc2 = new THREE.MTLLoader();
+				mtlLoadersouche.load( "obj/souche.mtl", function( materials ) {
 
-mtlLoadertronc2.load( "obj/Palm_01.mtl", function( materials ) {
+				materials.preload();
 
-//var modeltex = new THREE.TextureLoader().load( "obj/texture1.jpg" );
-materials.preload();
+				var objLoadersouche = new THREE.OBJLoader();
+				objLoadersouche.setMaterials(materials);
+				objLoadersouche.load('obj/souche.obj',function(souche)	{
 
-var objLoadertronc2 = new THREE.OBJLoader();
-objLoadertronc2.setMaterials(materials);
-objLoadertronc2.load('obj/Palm_01.obj',function(tronc2)	{
-
-		scene.add(tronc2);
-		tronc2.scale.set(1,1,1);
-		tronc2.position.set(0,0, 0);
-
-});
-});
-
-var mtlLoadersouche = new THREE.MTLLoader();
-
-mtlLoadersouche.load( "obj/drapé1.mtl", function( materials ) {
-
-materials.preload();
-
-var objLoadersouche = new THREE.OBJLoader();
-objLoadersouche.setMaterials(materials);
-objLoadersouche.load('obj/drapé1.obj',function(souche)	{
-
-	scene.add(souche);
-	souche.scale.set(1.7,0.5,1.5);
-	souche.position.set(0,-0.01,0);
+					scene.add(souche);
+					souche.scale.set(1,1,1);
+					souche.position.set(10,0,10);
 
 
-																											});
-});
+																															});
+				});
 
-var mtlLoader = new THREE.MTLLoader();
-mtlLoader.setBaseUrl( 'obj/' );
-mtlLoader.setPath( 'obj/' );
-var url = "/tronc1.mtl";
-mtlLoader.load( url, function( materials3 ) {
+				var mtlLoaderpalm = new THREE.MTLLoader();
 
-materials3.preload();
+				mtlLoaderpalm.load( "obj/Palm_01.mtl", function( materials ) {
 
-var objLoader = new THREE.OBJLoader();
-var objLoader2 = new THREE.OBJLoader();
+				//var modeltex = new THREE.TextureLoader().load( "obj/texture1.jpg" );
+				materials.preload();
 
-objLoader.setMaterials(materials);
-objLoader2.setMaterials(materials);
-objLoader.setPath( 'obj/' );
-objLoader2.setPath( 'obj/' );
+				var objLoaderpalm = new THREE.OBJLoader();
+				objLoaderpalm.setMaterials(materials);
+				objLoaderpalm.load('obj/Palm_01.obj',function(palm)	{
 
-});
+						scene.add(palm);
+						palm.scale.set(1,1,1);
+						palm.position.set(0,0, 0);
+
+				});
+				});
+
+				var mtlLoaderdrape = new THREE.MTLLoader();
+
+				mtlLoaderdrape.load( "obj/drapé1.mtl", function( materials ) {
+
+				materials.preload();
+
+				var objLoaderdrape = new THREE.OBJLoader();
+				objLoaderdrape.setMaterials(materials);
+				objLoaderdrape.load('obj/drapé1.obj',function(drape)	{
+
+					scene.add(drape);
+					drape.scale.set(1.7,0.8,1.5);
+					drape.position.set(0,-0.01,0);
+
+
+																															});
+				});
+
+				var mtlLoadercharly = new THREE.MTLLoader();
+
+				mtlLoadercharly.load( "obj/drapé2.mtl", function( materials ) {
+
+				materials.preload();
+
+				var objLoadercharly = new THREE.OBJLoader();
+				objLoadercharly.setMaterials(materials);
+				objLoadercharly.load('obj/drapé2.obj',function(charly)	{
+
+					scene.add(charly);
+					charly.scale.set(2,2,2);
+					charly.position.set(8,10,-32);
+					charly.rotation.set(22,20,19);
+
+
+																															});
+				});
+
+
+
+
+
+
+
 
 
 
