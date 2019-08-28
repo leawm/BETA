@@ -97,7 +97,7 @@
 	//CAMERA
 	camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 100 );
 	camera.position.set( 15, player.height, 0);
-	//camera.lookAt(new THREE.Vector3(0,player.height,0));
+	camera.lookAt(new THREE.Vector3(0,player.height,0));
 
 
 
@@ -105,13 +105,13 @@
 
 	controls = new THREE.OrbitControls( camera, renderer.domElement );
 	//controls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
-	controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+	controls.enableDamping = false; // an animation loop is required when either damping or auto-rotation are enabled
 	controls.dampingFactor = 0.25;
 	controls.screenSpacePanning = false;
-	controls.minDistance = 0;
+	controls.minDistance = 15;
 	//controls.maxDistance = 15;
-	controls.maxDistance = 25;
-	controls.maxPolarAngle = Math.PI/2.2;
+	controls.maxDistance = 29;
+	controls.maxPolarAngle = Math.PI/2.1;
 
 
 
@@ -437,20 +437,20 @@ loader = new THREE.PLYLoader();
 			camera.rotation.y -= Math.PI*0.003;
 		}
 
-		if(keyboard[67]){ //UP
-			camera.position.x += Math.PI*0.03;
-		}
-
-		if(keyboard[86]){ //DOWN
+		if(keyboard[38]){ //UP
 			camera.position.x -= Math.PI*0.03;
 		}
 
-		if(keyboard[66]){ //RIGHT
-			camera.position.z += Math.PI*0.03;
+		if(keyboard[40]){ //DOWN
+			camera.position.x += Math.PI*0.03;
 		}
 
-		if(keyboard[78]){ //LEFT
+		if(keyboard[39]){ //RIGHT
 			camera.position.z -= Math.PI*0.03;
+		}
+
+		if(keyboard[37]){ //LEFT
+			camera.position.z += Math.PI*0.03;
 		}
 
     //camera.rotation.y += 0.002;
